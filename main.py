@@ -12,7 +12,7 @@ dct: Dict[int, timedelta] = {}
 @client.command()
 @commands.is_owner()
 async def reminder(ctx: commands.Context) -> Optional[discord.Message]:
-    if x := ctx.author.id in lst:
+    if (x := ctx.author.id) in lst:
         lst.remove(x)
         return await ctx.send("you have been de-registered for reminders")
     lst.append(x)
@@ -20,9 +20,9 @@ async def reminder(ctx: commands.Context) -> Optional[discord.Message]:
 
 @client.event
 async def on_message(message: discord.Message) -> None:
-    if message.author == 853629533855809596 and "is dropping the cards" in message.content:
+    if message.author.id == 853629533855809596 and "is dropping the cards" in message.content:
         userId = ''.join([char for char in message.content if char.isdigit()])
-        if x := int(userId) in lst:
+        if (x := int(userId)) in lst:
             dct[x] = datetime.now() + timedelta(minutes = 8)
             await message.add_reaction('👍')
     await client.process_commands(message)
